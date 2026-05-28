@@ -2,11 +2,8 @@
 
 <div align="center">
 
-[![arXiv](https://img.shields.io/badge/arXiv-2604.20319-b31b1b)](https://arxiv.org/abs/2604.20319)
 [![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-yellow)](https://huggingface.co/datasets/wanggui/SurgCoT)
 [![Paper](https://img.shields.io/badge/Paper-CVPR%202026%20%7C%20arXiv-red)](https://arxiv.org/abs/2604.20319)
-[![Code](https://img.shields.io/badge/Code-Coming%20Soon-blue)]()
-[![License](https://img.shields.io/badge/License-Research%20Only-lightgrey)]()
 
 </div>
 
@@ -28,11 +25,10 @@ Question → Option → Knowledge → Clue → Answer
 
 ## 🔥 News
 
-- **[2026-04-xx]** SurgCoT paper is available on [arXiv](https://arxiv.org/abs/2604.20319).
-- **[2026-xx-xx]** SurgCoT has been accepted by **CVPR 2026**.
-- **[2026-xx-xx]** SurgCoT dataset is released on [Hugging Face](https://huggingface.co/datasets/wanggui/SurgCoT).
-- **[2026-xx-xx]** Evaluation code will be released soon.
-- **[2026-xx-xx]** Benchmark leaderboard will be updated soon.
+- **[2026-04]** SurgCoT paper is available on [arXiv](https://arxiv.org/abs/2604.20319).
+- **[2026-05]** SurgCoT has been accepted by **CVPR 2026**.
+- **[2026-07]** SurgCoT dataset is released on [Hugging Face](https://huggingface.co/datasets/wanggui/SurgCoT).
+- **[2026-06]** Evaluation code will be released soon.
 
 ## 📌 Highlights
 
@@ -122,7 +118,7 @@ Together, these dimensions evaluate both normal surgical workflow reasoning and 
 SurgCoT contains **2,841 surgical videos**, **19,345 main questions**, and **59,177 sub-questions** across **35 procedures** and **7 surgical specialties**.
 
 <p align="center">
-  <img src="assets/fig3_statistics.png" width="80%">
+  <img src="assets/fig3_statistics.png" width="50%">
 </p>
 
 | Item | Number |
@@ -323,8 +319,7 @@ We thank all clinicians, annotators, and researchers who contributed to the cons
 For questions or suggestions, please contact:
 
 ```text
-jianfeng.ren@nottingham.edu.cn
-llshen@szu.edu.cn
+scxgw1@nottingham.edu.cn
 ```
 
 or open an issue in this repository.
