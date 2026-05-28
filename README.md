@@ -14,7 +14,7 @@
 
 **SurgCoT** is a surgical video benchmark for evaluating **Chain-of-Thought (CoT) reasoning** in Multimodal Large Language Models (MLLMs).
 
-Fine-grained surgical understanding requires more than recognizing tools, phases, or isolated frames. Surgeons need to reason over dynamic spatiotemporal evidence, track subtle procedural changes, identify action order, localize micro-transitions, and detect abnormal events. SurgCoT is designed to evaluate whether current MLLMs can perform this type of expert-level progressive reasoning in surgical videos.
+Fine-grained surgical understanding requires more than recognizing tools, surgical phases, or isolated frames. Surgeons need to reason over dynamic spatiotemporal evidence, track subtle procedural changes, identify causal action order, localize micro-transitions, and detect abnormal events. SurgCoT is designed to evaluate whether current MLLMs can perform this type of expert-level progressive reasoning in surgical videos.
 
 SurgCoT contains **2,841 surgical videos** across **7 surgical specialties** and **35 procedures**, with **19,345 main questions** and **59,177 sub-questions**. It introduces a **three-stage progressive reasoning framework** and a **five-tuple annotation protocol**:
 
@@ -23,7 +23,7 @@ Question → Option → Knowledge → Clue → Answer
 ```
 
 <p align="center">
-  <img src="assets/overview.png" width="95%">
+  <img src="assets/fig1_overview.png" width="95%">
 </p>
 
 ## 🔥 News
@@ -37,22 +37,37 @@ Question → Option → Knowledge → Clue → Answer
 ## 📌 Highlights
 
 - **Large-scale surgical video benchmark**  
-  SurgCoT includes 2,841 surgical videos, 19,345 main questions, and 59,177 sub-questions.
+  SurgCoT includes **2,841 surgical videos**, **19,345 main questions**, and **59,177 sub-questions**.
 
 - **Cross-specialty procedural coverage**  
-  The benchmark covers 7 surgical specialties and 35 procedures, spanning abdominal, pelvic, and ophthalmic surgeries.
+  The benchmark covers **7 surgical specialties** and **35 procedures**, spanning abdominal, pelvic, and ophthalmic surgeries.
 
 - **Chain-of-thought surgical reasoning**  
-  SurgCoT evaluates progressive reasoning from video-level comprehension to clip-level analysis and frame-level localization.
+  SurgCoT evaluates progressive reasoning from video-level comprehension to clip-level analysis and frame-/patch-level localization.
 
 - **Five-tuple annotation protocol**  
-  Each sample is annotated with Question, Option, Knowledge, Clue, and Answer to support transparent and verifiable reasoning.
+  Each sample is annotated with **Question**, **Option**, **Knowledge**, **Clue**, and **Answer**, supporting transparent and verifiable reasoning.
 
 - **Fine-grained spatiotemporal grounding**  
   SurgCoT provides temporal windows, spatial clues, bounding boxes, masks, and event tracks for evidence-grounded reasoning.
 
-- **Comprehensive evaluation of MLLMs**  
+- **Comprehensive MLLM evaluation**  
   SurgCoT evaluates commercial, open-source, and medical-specialized MLLMs under baseline, knowledge-enhanced, and full-context settings.
+
+## 🏗️ Benchmark Construction
+
+SurgCoT is constructed through a systematic pipeline with expert oversight, including surgical video collection, clip standardization, evidence mining, progressive reasoning design, VQA generation, and quality control.
+
+<p align="center">
+  <img src="assets/fig2_pipeline.png" width="95%">
+</p>
+
+The construction pipeline contains four major stages:
+
+1. **Data Processing**: multi-source video collection, clip segmentation, ASR alignment, ontology-driven terminology normalization, and evidence mining.
+2. **Three-Stage Progressive Reasoning**: hierarchical reasoning from video-level comprehension to clip-level analysis and frame-/patch-level localization.
+3. **VQA Generation**: structured task templates and ontology-driven design for generating surgical CoT questions.
+4. **Quality Control**: dual-pass validation, structural checks, clinical consistency verification, and expert adjudication.
 
 ## 🧩 Benchmark Design
 
@@ -72,11 +87,7 @@ The reasoning chain progressively narrows the scope:
 Full video → Relevant clip → Key frame / spatial region
 ```
 
-This design mirrors the way clinicians first understand the global surgical context, then inspect a relevant temporal window, and finally localize the exact evidence.
-
-<p align="center">
-  <img src="assets/progressive_reasoning.png" width="95%">
-</p>
+This design mirrors the way clinicians first understand the global surgical context, then inspect a relevant temporal window, and finally localize the exact visual evidence.
 
 ### 2. Five-Tuple Annotation Protocol
 
@@ -84,17 +95,17 @@ Each reasoning stage follows a structured five-tuple format:
 
 | Field | Description |
 |---|---|
-| Question | A clinically meaningful query aligned with surgical workflow |
+| Question | A clinically meaningful query aligned with the surgical workflow |
 | Option | Candidate answers designed to disambiguate similar surgical phenomena |
 | Knowledge | Clinical background knowledge and domain priors |
-| Clue | Video-grounded spatiotemporal evidence, such as time windows, ROIs, or landmarks |
+| Clue | Video-grounded spatiotemporal evidence, such as time windows, ROIs, landmarks, masks, boxes, or tracks |
 | Answer | The final adjudicated answer |
 
 The **Knowledge** field explains the clinical “why”, while the **Clue** field anchors the visual “where” and “when”. Together, they encourage models to reason before answering.
 
 ### 3. Five Surgical Reasoning Dimensions
 
-SurgCoT evaluates five core reasoning dimensions:
+SurgCoT evaluates five core spatiotemporal reasoning dimensions:
 
 | Abbreviation | Reasoning Dimension | Description |
 |---|---|---|
@@ -107,6 +118,12 @@ SurgCoT evaluates five core reasoning dimensions:
 Together, these dimensions evaluate both normal surgical workflow reasoning and abnormal event handling.
 
 ## 📊 Dataset Statistics
+
+SurgCoT contains **2,841 surgical videos**, **19,345 main questions**, and **59,177 sub-questions** across **35 procedures** and **7 surgical specialties**.
+
+<p align="center">
+  <img src="assets/fig3_statistics.png" width="80%">
+</p>
 
 | Item | Number |
 |---|---:|
@@ -126,10 +143,6 @@ SurgCoT covers the following surgical specialties:
 - Gynecologic Surgery
 - General Surgery
 - Hepatobiliary-Pancreatic Surgery
-
-<p align="center">
-  <img src="assets/statistics.png" width="90%">
-</p>
 
 ## 📦 Dataset Download
 
@@ -181,7 +194,7 @@ SurgCoT/
 └── README.md
 ```
 
-## 🧪 Evaluation
+## 🧪 Evaluation Protocol
 
 SurgCoT evaluates MLLMs under three settings.
 
@@ -203,7 +216,7 @@ The model receives additional clinical knowledge and answers progressive sub-que
 Video + Question + Knowledge → Q1 / Q2 / Q3 → Answer
 ```
 
-This setting evaluates whether domain knowledge improves progressive surgical reasoning.
+This setting evaluates whether clinical knowledge improves progressive surgical reasoning.
 
 ### Full-Context Setting
 
@@ -250,19 +263,29 @@ python compute_metrics.py \
 
 ## 📈 Benchmark Results
 
-SurgCoT evaluates representative commercial, open-source, and medical-specialized MLLMs.
+SurgCoT evaluates representative commercial, open-source, and medical-specialized MLLMs across five surgical reasoning tasks under progressive settings.
 
 <p align="center">
-  <img src="assets/results.png" width="95%">
+  <img src="assets/table2_main_results.png" width="95%">
 </p>
 
 ### Main Findings
 
 - Commercial MLLMs generally outperform open-source and medical-specialized models.
 - Current MLLMs still show significant limitations in surgical Chain-of-Thought reasoning.
-- Models often answer the final question correctly while making mistakes in intermediate reasoning steps.
+- Models may answer the final question correctly while making mistakes in intermediate reasoning steps.
 - Knowledge-enhanced and full-context settings improve performance, showing the value of structured reasoning supervision.
-- Fine-grained temporal and spatial clues are especially helpful for tasks requiring precise localization, such as Micro-Transition Localization and Anomaly Onset Tracking.
+- Fine-grained temporal and spatial clues are especially helpful for tasks requiring precise localization, such as **Micro-Transition Localization** and **Anomaly Onset Tracking**.
+
+## 🔍 Case Study
+
+SurgCoT shows how structured reasoning can progressively correct model predictions. The case study below illustrates how a baseline response can be decomposed into clinical sub-questions, improved with domain knowledge, and further refined using spatiotemporal clues.
+
+<p align="center">
+  <img src="assets/fig4_case_study.png" width="95%">
+</p>
+
+The progression from **Baseline (BL)** to **Knowledge-Enhanced (KE)** and **Full-Context (FC)** demonstrates that clinical knowledge and visual clues can help MLLMs produce more grounded and reliable surgical reasoning.
 
 ## 🏥 Clinical Relevance
 
